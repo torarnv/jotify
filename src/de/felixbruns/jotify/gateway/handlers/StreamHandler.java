@@ -63,7 +63,9 @@ public class StreamHandler implements HttpHandler {
 						jotify.stream(id, file, exchange);
 					}
 					catch(RuntimeException e){
-						responseString = "<error>" + e.getCause().getMessage() + "</error>";
+						responseString = "<error>" + e.getCause() != null ?
+								e.getCause().getMessage() : e.getMessage()
+								+ "</error>";
 					}
 					catch(Exception e){
 						responseString = "<error>" + e.getMessage() + "</error>";

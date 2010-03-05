@@ -21,7 +21,9 @@ public class UserHandler extends GatewayHandler {
 					return jotify.user();
 				}
 				catch(RuntimeException e){
-					return "<error>" + e.getCause().getMessage() + "</error>";
+					return "<error>" + e.getCause() != null ?
+							e.getCause().getMessage() : e.getMessage()
+							+ "</error>";
 				}
 			}
 			else{
