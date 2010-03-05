@@ -30,7 +30,13 @@ public class GatewayApplication {
 		}
 		
 		/* Create a HTTP server that listens for connections on port 8080 or the given port. */
-		HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+		HttpServer server = null;
+		try {
+			server = HttpServer.create(new InetSocketAddress(port), 0);
+		} catch (Exception e) {
+			System.err.println("Could not start HTTP server: " + e.getMessage());
+			System.exit(1);
+		}
 		
 		/* Set up content handlers. */
 		server.createContext("/",       new ContentHandler());
