@@ -20,10 +20,9 @@ public class StreamHandler implements HttpHandler {
 	public void handle(HttpExchange exchange) throws IOException {
 		/* Get request method and query. */
 		String requestMethod = exchange.getRequestMethod();
-		String requestQuery  = exchange.getRequestURI().getQuery();
 		
 		/* Get request parameters. */
-		Map<String, String> params = URIUtilities.parseQuery(requestQuery);
+		Map<String, String> params = URIUtilities.parseQuery(exchange);
 		
 		/* Get response body and headers. */
 		OutputStream responseBody    = exchange.getResponseBody();

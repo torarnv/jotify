@@ -1,12 +1,8 @@
 package de.felixbruns.jotify.gateway;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONException;
@@ -22,31 +18,9 @@ public abstract class GatewayHandler implements HttpHandler {
 	public void handle(HttpExchange exchange) throws IOException {
 		/* Get request method and query. */
 		String requestMethod = exchange.getRequestMethod();
-		String requestQuery  = exchange.getRequestURI().getQuery();
 		
 		/* Get request parameters. */
-		Map<String, String> params = new HashMap<String, String>();
-		
-		if(requestMethod.equalsIgnoreCase("GET")){
-			params = URIUtilities.parseQuery(requestQuery);
-		}
-		else if(requestMethod.equalsIgnoreCase("POST")){
-			InputStream    input   = exchange.getRequestBody();
-			BufferedReader reader  = new BufferedReader(new InputStreamReader(input));
-			StringBuilder  builder = new StringBuilder();
-			String         line;
-			
-			/* Convert input stream to string. */
-			while((line = reader.readLine()) != null){
-				builder.append(line);
-			}
-			
-			/* Close input stream. */
-			input.close();
-			
-			/* Parse query. */
-			params = URIUtilities.parseQuery(builder.toString());
-		}
+		Map<String, String> params = URIUtilities.parseQuery(exchange);
 		
 		/* Get response body and headers. */
 		OutputStream responseBody    = exchange.getResponseBody();
