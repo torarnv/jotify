@@ -492,7 +492,39 @@
 										discs[i].track[j]['album-id'] = data.album.id;
 										discs[i].track[j].album       = data.album.name;
 										discs[i].track[j].cover       = data.album.cover;
-										
+
+										var files = discs[i].track[j].files;
+
+										if(typeof(files.file) == 'undefined'){
+											files = [];
+										}
+										else if(files.file instanceof Array){
+											files = files.file;
+										}
+										else{
+											files = [files.file];
+										}
+
+										var currentBestFile = undefined;
+										var currentBestBitrate = 0;
+										for(var f in files){
+											var bitrate = parseInt(files[f].format.split(",", 2)[1]);
+
+											if (bitrate > currentBestBitrate){
+												currentBestFile = files[f];
+												currentBestBitrate = bitrate;
+											}
+										}
+
+										if(currentBestFile != undefined){
+											discs[i].track[j].file = currentBestFile.id;
+											discs[i].track[j].format = currentBestFile.format;
+										}
+										else{
+											discs[i].track[j].file = undefined;
+											discs[i].track[j].format = undefined;
+										}
+
 										currentTracks.push(discs[i].track[j]);
 										
 										appendTrackToDisc(i, currentTracks.length - 1, discs[i].track[j]);
