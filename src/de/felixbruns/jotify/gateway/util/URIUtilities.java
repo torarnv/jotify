@@ -21,11 +21,12 @@ public class URIUtilities {
 		
 		String[] params = query.split("&");
 		
-		for(String param : params){  
-			String name  = param.split("=")[0];
-			String value = param.split("=")[1];
+		for(String param : params){
+			String[] nameAndValue = param.split("=");
+			if (nameAndValue.length != 2 || nameAndValue[0].isEmpty())
+				continue;
 			
-			map.put(name, value);
+			map.put(nameAndValue[0], nameAndValue[1]);
 		}
 		
 		return map;
