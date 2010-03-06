@@ -233,7 +233,7 @@ public class ChannelStreamer implements ChannelListener {
 	
 	public void channelEnd(Channel channel){
 		/* Create cache hash. */
-		String hash = this.cache.hash(this.track, this.channelOffset, this.channelLength);
+		String hash = this.cache.hash(this.track, this.channelOffset, this.channelTotal);
 		
 		/* Save to cache. */
 		if(this.cache != null && !this.cache.contains("substream", hash)){
