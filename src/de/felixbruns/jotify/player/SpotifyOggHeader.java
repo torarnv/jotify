@@ -81,6 +81,11 @@ public class SpotifyOggHeader {
 		return this.length;
 	}
 	
+	/* Length of header. */
+	public int getHeaderLength(){
+		return 167; // FIXME: Is this always static?
+	}
+
 	public float getGainScale(){
 		return this.gainScale;
 	}

@@ -208,11 +208,11 @@ public class ChannelStreamer implements ChannelListener {
 				this.header = new SpotifyOggHeader(bytes);
 				
 				/* Send response headers. */
-				System.out.format("Header: 0x%08x\n", (this.header.getLength() & 0xfffff000) - 167);
+				System.out.format("Header: 0x%08x\n", (this.header.getLength() & 0xfffff000) - this.header.getHeaderLength());
 				
-				this.exchange.sendResponseHeaders(200, (this.header.getLength() & 0xfffff000) - 167);
+				this.exchange.sendResponseHeaders(200, (this.header.getLength() & 0xfffff000) - this.header.getHeaderLength());
 				
-				off = 167;
+				off = this.header.getHeaderLength();
 			}
 			
 			this.output.write(ciphertext, off, data.length - off);
@@ -245,7 +245,7 @@ public class ChannelStreamer implements ChannelListener {
 			if(this.channelTotal < this.channelLength){
 				this.output.close();
 				
-				System.out.format("Stream: 0x%08x\n", this.total - 167);
+				System.out.format("Stream: 0x%08x\n", this.total - this.header.getHeaderLength());
 				
 				return;
 			}
